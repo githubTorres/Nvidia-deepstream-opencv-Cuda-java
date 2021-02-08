@@ -1,0 +1,73 @@
+# the tools needed
+$ sudo apt-get install cmake curl
+# download the latest TensorFlow version (2.4.0)
+$ wget -O tensorflow.zip https://github.com/tensorflow/tensorflow/archive/v2.4.0.zip
+# unpack and give the folder a convenient name
+$ unzip tensorflow.zip
+$ mv tensorflow-2.4.0 tensorflow
+$ cd tensorflow
+# get the dependencies
+$ ./tensorflow/lite/tools/make/download_dependencies.sh
+# run the C++ installation
+$ ./tensorflow/lite/tools/make/build_aarch64_lib.sh
+
+# install the flatbuffers
+$ cd ~/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make -j4
+$ sudo make install
+$ sudo ldconfig
+# clean up
+$ cd ~
+$ rm tensorflow.zip
+
+# install dphys-swapfile
+$ sudo apt-get install dphys-swapfile
+# give the required memory size
+$ sudo nano /etc/dphys-swapfile
+# reboot afterwards
+$ sudo reboot.
+
+# get a fresh start
+$ sudo apt-get update
+$ sudo apt-get upgrade
+# install pip and pip3
+$ sudo apt-get install python-pip python3-pip
+# install some tools
+$ sudo apt-get install build-essential zip unzip curl
+# install Java
+$ sudo apt-get install openjdk-11-jdk
+
+$ wget https://github.com/bazelbuild/bazel/releases/download/3.1.0/bazel-3.1.0-dist.zip
+$ unzip -d bazel bazel-3.1.0-dist.zip
+$ cd bazel
+
+$ nano scripts/bootstrap/compile.sh -c
+
+# start the build
+$ env EXTRA_BAZEL_ARGS="--host_javabase=@local_jdk//:jdk" bash ./compile.sh
+# copy the binary
+$ sudo cp output/bazel /usr/local/bin/bazel
+# clean up
+$ cd ~
+$ rm bazel-3.1.0-dist.zip
+# if you have a copied bazel to /usr/local/bin you may also
+# delete the whole bazel directory, freeing another 500 MByte
+$ sudo rm -rf bazel
+
+# download TensorFlow 2.3.1
+$ wget -O tensorflow.zip https://github.com/tensorflow/tensorflow/archive/v2.3.1.zip
+# unpack and give the folder a convenient name
+$ unzip tensorflow.zip
+$ mv tensorflow-2.3.1 tensorflow
+
+$ cd tensorflow
+$ ./configure
+
+$ sudo bazel build -s -c opt --copt="-DMESA_EGL_NO_X11_HEADERS" tensorflow/lite/delegates/gpu:libtensorflowlite_gpu_delegate.so
+
+# remove the dphys-swapfile (if installed)
+$ sudo /etc/init.d/dphys-swapfile stop
+$ sudo apt-get remove --purge dphys-swapfile

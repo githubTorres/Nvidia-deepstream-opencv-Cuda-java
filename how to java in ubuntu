@@ -1,0 +1,34 @@
+Install OpenJDK 8 on Ubuntu Trusty
+Version 8 of OpenJDK is available for Ubuntu Trusty 14.04 from the PPA repository OpenJDK builds. Add this repository to your system’s Software Sources:
+sudo add-apt-repository ppa:openjdk-r/ppa
+sudo apt-get update
+Install OpenJDK 8:
+sudo apt-get install openjdk-8-jdk
+Check which JDK-Versions are available on your system perform:
+sudo update-java-alternatives --list
+you get something like this (in a 32-bit environment -i386 postfix instead of -amd64):
+
+java-1.7.0-openjdk-amd64 1071 /usr/lib/jvm/java-1.7.0-openjdk-amd64
+java-1.8.0-openjdk-amd64 1069 /usr/lib/jvm/java-1.8.0-openjdk-amd64
+Make version 8 your default Java:
+sudo update-alternatives --config java
+you get something like this:
+
+There are 2 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                           Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java   1071      auto mode
+  1            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java   1071      manual mode
+  2            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1069      manual mode
+
+Press enter to keep the current choice[*], or type selection number:
+Pay attention to the asterisk before the numbers on the left and if the correct one is not set choose the correct one by typing the number of it and pressing enter. Enter ‘2’ to select the java-8-openjdk-amd64.
+
+Repeat the previous operation with default Javac:
+sudo update-alternatives --config javac
+Check with java -version and javac -version that version 8 is the default JDK.
+you get something like this:
+openjdk version "1.8.0_171"
+OpenJDK Runtime Environment (build 1.8.0_171-8u171-b11-1~bpo8+1-b11)
+OpenJDK 64-Bit Server VM (build 25.171-b11, mixed mode)
